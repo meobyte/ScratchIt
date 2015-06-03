@@ -1,0 +1,28 @@
+<!doctype html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <title>ScratchIt Test Suite</title>
+    <!-- Load local jQuery. -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <!-- Load local QUnit. -->
+    <link rel="stylesheet" href="../bower_components/qunit/qunit/qunit.css" media="screen">
+    <script src="../bower_components/qunit/qunit/qunit.js"></script>
+    <script src="../node_modules/qunit-assert-canvas/qunit-assert-canvas.js"></script>
+    <!-- Load local lib and tests. -->
+    <script src="../src/scratchit.js"></script>
+    <script src="scratchit_test.js"></script>
+    <!-- Removing access to jQuery and $. But it'll still be available as _$, if
+         you REALLY want to mess around with jQuery in the console. REMEMBER WE
+         ARE TESTING A PLUGIN HERE, THIS HELPS ENSURE BEST PRACTICES. REALLY. -->
+    <script>window._$ = jQuery.noConflict(true);</script>
+  </head>
+  <body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture">
+      <canvas id="qunit-canvas" width="5" height="5"></canvas>
+      <span>normal test markup</span>
+      <span>awesome test markup</span>
+    </div>
+  </body>
+</html>
