@@ -1,0 +1,41 @@
+<!doctype html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <title>ScratchIt Test Suite</title>
+    <!-- Load local jQuery. -->
+    <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <!-- Load local QUnit. -->
+    <link rel="stylesheet" href="css/scratchit.css" media="all" />
+
+
+    <!-- Load local lib and tests. -->
+    <script src="./src/scratchit.js"></script>
+
+
+  </head>
+  <body>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="scratchit">
+		<img style="display:none" src="src/scratcher.jpg" width="400" height="200" />
+		<img src="src/cat.jpg" width="400" height="200" />
+      <canvas width="400" height="200"></canvas>
+    </div>
+    
+    <div class="scratchit">
+		<img style="display:none" src="src/scratcher2.jpg" width="400" height="200" />
+		<img src="src/cat.jpg" width="400" height="200" />
+      <canvas width="400" height="200"></canvas>
+    </div>
+    
+    <script>
+     $(function() {
+        var $scratchit = $('.scratchit').scratchIt();
+      });
+
+    </script>
+  </body>
+</html>

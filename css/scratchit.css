@@ -1,0 +1,20 @@
+.scratchit {
+	position:relative;
+}
+.scratchit > canvas {
+	border: 1px solid black;
+}
+
+.scratchit > canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.scratchit,
+.scratchit * {
+	-moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
