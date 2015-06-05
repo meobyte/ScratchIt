@@ -12,16 +12,25 @@ Download the [production version][min] or the [development version][max].
 
 In your web page:
 
+Markup:
+```html
+<div class="scratchit">
+  <img src="images/image-to-scratch.jpg" width="400" height="200" />
+  <img src="images/image-to-reveal.jpg" width="400" height="200" />
+  <canvas width="400" height="200"></canvas>
+</div>
+```
+
+JS:
 ```html
 <script src="jquery.js"></script>
 <script src="dist/scratchit.min.js"></script>
 <script>
-  jQuery(function ($) {
-    $.awesome(); // "awesome"
+  $(function() {
+        var $scratchit = $('.scratchit').scratchIt();
   });
 </script>
 ```
-
 
 ## License
 
