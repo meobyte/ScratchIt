@@ -37,21 +37,16 @@
             this.context = this.canvas[0].getContext('2d');
             
             var context = this.context; 
-             
-            this.topImage = this.$element.find('img').first();
-            this.bottomImage = this.topImage.next();
-            this.topImage = this.topImage[0];
+            this.context.fillStyle = "#C4B178";
+            this.context.fillRect(0,0, this.canvas[0].width, this.canvas[0].height);
+
+            this.scratchedImage = this.$element.find('img').first();
+            var scratchedImage = this.scratchedImage[0];
             
-            this.newImage = new Image();
-            this.newImage.src = this.topImage.src;
-            var newImage = this.newImage;
-            newImage.onload = function(){
-              context.drawImage(newImage, 0, 0);
+            scratchedImage.onload = function(){
+              context.drawImage(scratchedImage, 0, 0);
               context.globalCompositeOperation = "destination-out";
             };
-            
-            console.log(this.newImage.src);
-            
 
             this.context.strokeStyle = "#F00";
             this.context.lineJoin = "round";
@@ -88,7 +83,12 @@
         onUp: function () {
           this.isScratching = false;
 
+        },
+        
+        onLoad: function(){
+          
         }
+        
     };
 
   $.fn.scratchIt = function (options) {

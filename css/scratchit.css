@@ -5,7 +5,8 @@
 	border: 1px solid black;
 }
 
-.scratchit > canvas {
+.scratchit > canvas,
+.scratchit > img + img {
 	position: absolute;
 	top: 0;
 	left: 0;
