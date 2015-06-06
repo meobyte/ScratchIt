@@ -1,6 +1,7 @@
 {
   "name": "scratchit",
   "version": "0.1.0",
+  "private": true,
   "dependencies": {},
   "devDependencies": {
     "qunit": "~1.12.0",
