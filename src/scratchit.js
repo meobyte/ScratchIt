@@ -8,7 +8,7 @@
 ; (function ($, window, document, undefined) {
   var x, y;
   var defaults = {
-    propertyName: "value"
+    color: "#C4B178"
   };
 
   /**
@@ -37,16 +37,20 @@
             this.context = this.canvas[0].getContext('2d');
             
             var context = this.context; 
-            this.context.fillStyle = "#C4B178";
+            this.context.fillStyle = this.options.color;
             this.context.fillRect(0,0, this.canvas[0].width, this.canvas[0].height);
-
-            this.scratchedImage = this.$element.find('img').first();
-            var scratchedImage = this.scratchedImage[0];
+            if (this.$element.find('img').length > 1) {
+              this.scratchedImage = this.$element.find('img').first();
+              var scratchedImage = this.scratchedImage[0];
             
-            scratchedImage.onload = function(){
-              context.drawImage(scratchedImage, 0, 0);
+              scratchedImage.onload = function(){
+                context.drawImage(scratchedImage, 0, 0);
+                context.globalCompositeOperation = "destination-out";
+              };
+            } else {
               context.globalCompositeOperation = "destination-out";
-            };
+            }
+            
 
             this.context.strokeStyle = "#F00";
             this.context.lineJoin = "round";
