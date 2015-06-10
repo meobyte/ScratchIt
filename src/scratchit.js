@@ -39,22 +39,22 @@
             var context = this.context; 
             this.context.fillStyle = this.options.color;
             this.context.fillRect(0,0, this.canvas[0].width, this.canvas[0].height);
+            this.totalPixels = this.canvas[0].width * this.canvas[0].height;
             if (this.$element.find('img').length > 1) {
               this.scratchedImage = this.$element.find('img').first();
               var scratchedImage = this.scratchedImage[0];
             
               scratchedImage.onload = function(){
                 context.drawImage(scratchedImage, 0, 0);
-                context.globalCompositeOperation = "destination-out";
+
               };
-            } else {
-              context.globalCompositeOperation = "destination-out";
-            }
+            } 
             
 
             this.context.strokeStyle = "#F00";
             this.context.lineJoin = "round";
-            this.context.lineWidth = 20;
+            this.context.lineCap = "round";
+            this.context.lineWidth = 50;
             
             this.offsetxy  = this.canvas.offset();
             
@@ -68,11 +68,13 @@
         onDown: function(e) {
           
           var context = this.context;
+          context.globalCompositeOperation = "destination-out";
           context.beginPath();
           x = e.pageX;
           y = e.pageY - this.offsetxy.top;
           context.moveTo(x, y);
           this.isScratching = true;
+          this.percentScratched();
 
         },
         onMove: function(e) {
@@ -82,7 +84,7 @@
           y = e.pageY - this.offsetxy.top;
           context.lineTo(x, y);
           context.stroke();
-
+          this.percentScratched();
         },
         onUp: function () {
           this.isScratching = false;
@@ -91,7 +93,24 @@
         
         onLoad: function(){
           
+        },
+        
+        percentScratched: function () {
+          var clearedPixels = 0,
+          imageData = this.context.getImageData(0,0, this.canvas[0].width, this.canvas[0].height),
+          imageDataLength = imageData.data.length;
+          
+          for (var i=0; i < imageDataLength; i=i+4) {
+            //the alpha of eace pixel is every 4th value
+            if (imageData.data[i+3] === 0) {
+              clearedPixels++;
+
+            }
+          }
+          console.log((clearedPixels / this.totalPixels) * 100);
+          
         }
+        
         
     };
 
