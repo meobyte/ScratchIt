@@ -8,7 +8,10 @@
 ; (function ($, window, document, undefined) {
   var x, y;
   var defaults = {
-    color: "#C4B178"
+    color: "#C4B178",
+    goal: 100,
+    brush: 15
+    
   };
 
   /**
@@ -26,6 +29,8 @@
         this._name = 'scratchIt';
 
         this.isScratching === undefined && this.init();
+        
+        
 
     }
 
@@ -40,6 +45,7 @@
             this.context.fillStyle = this.options.color;
             this.context.fillRect(0,0, this.canvas[0].width, this.canvas[0].height);
             this.totalPixels = this.canvas[0].width * this.canvas[0].height;
+            
             if (this.$element.find('img').length > 1) {
               this.scratchedImage = this.$element.find('img').first();
               var scratchedImage = this.scratchedImage[0];
@@ -51,10 +57,10 @@
             } 
             
 
-            this.context.strokeStyle = "#F00";
+            this.context.strokeStyle = "#FFF";
             this.context.lineJoin = "round";
             this.context.lineCap = "round";
-            this.context.lineWidth = 50;
+            this.context.lineWidth = this.options.brush;
             
             this.offsetxy  = this.canvas.offset();
             
@@ -66,13 +72,14 @@
         },
         
         onDown: function(e) {
-          
           var context = this.context;
+          x = e.pageX - this.offsetxy.left;
+          y = e.pageY - this.offsetxy.top;
           context.globalCompositeOperation = "destination-out";
           context.beginPath();
-          x = e.pageX;
-          y = e.pageY - this.offsetxy.top;
           context.moveTo(x, y);
+          context.lineTo(x-1, y);
+          context.stroke();
           this.isScratching = true;
           this.percentScratched();
 
@@ -80,15 +87,20 @@
         onMove: function(e) {
           var context = this.context;
           if (!this.isScratching) {return;}
-          x = e.pageX;
+          x = e.pageX - this.offsetxy.left;
           y = e.pageY - this.offsetxy.top;
           context.lineTo(x, y);
           context.stroke();
           this.percentScratched();
         },
         onUp: function () {
+          this.percentScratched();
           this.isScratching = false;
-
+          
+        },
+        
+        clear: function () {
+          
         },
         
         onLoad: function(){
@@ -96,18 +108,24 @@
         },
         
         percentScratched: function () {
-          var clearedPixels = 0,
-          imageData = this.context.getImageData(0,0, this.canvas[0].width, this.canvas[0].height),
-          imageDataLength = imageData.data.length;
-          
-          for (var i=0; i < imageDataLength; i=i+4) {
-            //the alpha of eace pixel is every 4th value
-            if (imageData.data[i+3] === 0) {
-              clearedPixels++;
 
+          var imageData = this.context.getImageData(0,0, this.canvas[0].width, this.canvas[0].height),
+          imageDataLength = imageData.data.length;
+          var now = Date.now();
+          var clearedPixels = 0;
+          
+          if (!this.lastEvent || now - this.lastEvent >= 200) {
+            for (var i=0; i < imageDataLength; i=i+4) {
+              //the alpha of eace pixel is the 4th value
+              if (imageData.data[i+3] === 0) {
+                clearedPixels++;
+  
+              }
             }
+            console.log((clearedPixels / this.totalPixels) * 100);
+            this.lastEvent = now;
           }
-          console.log((clearedPixels / this.totalPixels) * 100);
+          
           
         }
         
