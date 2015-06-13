@@ -47,13 +47,12 @@
             this.totalPixels = this.canvas[0].width * this.canvas[0].height;
             
             if (this.$element.find('img').length > 1) {
-              this.scratchedImage = this.$element.find('img').first();
-              var scratchedImage = this.scratchedImage[0];
-            
+              var scratchedImage = new Image();
               scratchedImage.onload = function(){
                 context.drawImage(scratchedImage, 0, 0);
-
               };
+              scratchedImage.src = this.$element.find('img').attr("src");
+              
             } 
             
 
