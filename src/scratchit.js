@@ -64,10 +64,13 @@
             this.offsetx = this.canvas.offset().left;
             this.offsety = this.canvas.offset().top;
             
-            this.canvas.on({
+            $(document).on({
               'mousedown.scratchit' : $.proxy(this.onDown, this),
-              'mousemove.scratchit' : $.proxy(this.onMove, this),
               'mouseup.scratchit' : $.proxy(this.onUp, this)
+            });
+            
+            this.canvas.on({
+              'mousemove.scratchit' : $.proxy(this.onMove, this)
             });
         },
         
