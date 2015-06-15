@@ -30,8 +30,6 @@
         this._name = 'scratchIt';
 
         this.isScratching === undefined && this.init();
-        
-        
 
     }
 
@@ -63,6 +61,8 @@
             this.context.lineWidth = this.options.brush;
             
             this.offsetxy  = this.canvas.offset();
+            this.offsetx = this.canvas.offset().left;
+            this.offsety = this.canvas.offset().top;
             
             this.canvas.on({
               'mousedown.scratchit' : $.proxy(this.onDown, this),
@@ -73,26 +73,31 @@
         
         onDown: function(e) {
           var context = this.context;
-          x = e.pageX - this.offsetxy.left;
-          y = e.pageY - this.offsetxy.top;
+          x = e.pageX - this.offsetx;
+          y = e.pageY - this.offsety;
+          
           context.globalCompositeOperation = "destination-out";
           context.beginPath();
           context.moveTo(x, y);
           context.lineTo(x-1, y);
           context.stroke();
+          
           this.isScratching = true;
           this.percentScratched();
 
         },
+        
         onMove: function(e) {
           var context = this.context;
           if (!this.isScratching) {return;}
-          x = e.pageX - this.offsetxy.left;
-          y = e.pageY - this.offsetxy.top;
+          x = e.pageX - this.offsetx;
+          y = e.pageY - this.offsety;
           context.lineTo(x, y);
+          
           context.stroke();
           this.percentScratched();
         },
+        
         onUp: function () {
           this.percentScratched();
           this.isScratching = false;
